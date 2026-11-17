@@ -49,6 +49,11 @@ def gerar_plano(store, modelo, perfis, perfil):
     config['profile'] = perfil
     store.set('config', config)
     try:
+        if store.get('planning_mode') == 'balanced':
+            from sei.onboarding import planejar_rotina
+            store.set('plan', planejar_rotina(store))
+            store.set('plan_status', 'ready')
+            return
         subjects = store.subjects()
         fatores = {1: 1, 2: 2, 3: 4, 4: 8}
         resultado = executar(modelo, perfis[perfil],
@@ -124,7 +129,7 @@ def sidebar(store):
             dot.markdown(f'<div class="dot" style="background:{s["color"]};margin-top:20px"></div>', unsafe_allow_html=True)
             botao.button(s['name'], key=f'short_{s["id"]}', width='stretch',
                          on_click=navegar, args=('Matérias', s['id']))
-        st.caption('Seu espaço de estudos, salvo neste computador.')
+        st.caption('Seu espaço pessoal de estudos.')
         st.divider()
         st.toggle('Modo escuro', value=store.get('theme', 'light') == 'dark',
                    key='dark_mode', on_change=alternar_tema, args=(store,))
@@ -244,6 +249,13 @@ def calendario(store, modelo, perfis):
         st.caption('Plano com ajustes manuais. “Gerar plano” substitui esses ajustes por uma nova organização automática.')
     resumo(store, config, subjects, plan)
     with st.expander('Como o SEI montou seu plano'):
+        if store.get('planning_mode') == 'balanced':
+            st.write('O plano usa os horários que você selecionou. Com urgências iguais, as horas são '
+                     'divididas igualmente; as sobras são sorteadas entre matérias distintas. '
+                     'Alterar prioridade ou urgência dá mais peso à matéria ao gerar novamente.')
+            st.caption('Este planejamento pessoal não usa o perfil de teste nem estima evasão. '
+                       'O modelo acadêmico permanece disponível na demonstração pelo terminal.')
+            return
         perfil = st.selectbox('Perfil acadêmico de demonstração', list(perfis),
                               index=list(perfis).index(config['profile']),
                               format_func=lambda p: PERFIS.get(p, p), key='perfil')
@@ -562,13 +574,20 @@ def chatbot(store):
     chat(store, st.session_state['conversation'])
 
 
-def main(db_path=None, demo=False):
+def main(db_path=None, demo=False, require_login=True):
     st.set_page_config(page_title='SEI | Sua semana de estudos', page_icon='📖', layout='wide', initial_sidebar_state='auto')
-    store = Workspace(db_path or os.environ.get('SEI_DB_PATH', str(ROOT / 'dados/sei.db')))
-    if demo:
-        st.info('Demonstração online: seu espaço é separado dos demais visitantes. '
-                'Os dados são temporários e podem desaparecer ao abrir uma nova sessão '
-                'ou quando o servidor reiniciar. Use apenas materiais de demonstração.')
+    base_css = '\n'.join((ROOT / 'assets' / f).read_text(encoding='utf-8')
+                         for f in ['sei.css','sei-mobile.css','sei-welcome.css'])
+    st.markdown('<style>' + base_css + '</style>', unsafe_allow_html=True)
+    account = None
+    if require_login:
+        from sei.welcome import entrada, sair
+        account = entrada(os.environ.get('SEI_DATA_DIR', str(ROOT / 'dados')))
+        if account is None:
+            return
+        store, user, accounts = account
+    else:
+        store = Workspace(db_path or os.environ.get('SEI_DB_PATH', str(ROOT / 'dados/sei.db')))
     escuro = st.session_state.get('dark_mode', store.get('theme', 'light') == 'dark')
     css = (ROOT / 'assets/sei.css').read_text(encoding='utf-8')
     if escuro:
@@ -589,7 +608,7 @@ def main(db_path=None, demo=False):
         })();
     </script>''', unsafe_allow_javascript=True)
     try:
-        modelo, perfis = carregar_artefatos()
+        modelo, perfis = (None, {}) if store.get('planning_mode') == 'balanced' else carregar_artefatos()
     except (OSError, ValueError, EOFError) as exc:
         st.error('Não foi possível carregar o pipeline ou os perfis locais. Prepare os artefatos antes da demonstração.')
         st.code('.\\.venv\\Scripts\\python preparar.py --dados fontes\\uci_697.csv')
@@ -604,6 +623,10 @@ def main(db_path=None, demo=False):
     if st.session_state.get('page') == 'Horários de aula':
         st.session_state['page'] = 'Disponibilidade'
     sidebar(store)
+    if account:
+        with st.sidebar:
+            st.caption(user['name'])
+            st.button('Sair da conta', key='logout', on_click=sair, args=(accounts,))
     if st.session_state.get('flash'):
         st.success(st.session_state.pop('flash'))
     page = st.session_state.get('page', 'Calendário')

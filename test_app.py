@@ -22,9 +22,10 @@ class InterfaceTest(unittest.TestCase):
         self.env = patch.dict(os.environ, {'SEI_DB_PATH': str(self.db_path)})
         self.env.start()
         self.addCleanup(self.env.stop)
+        Workspace(self.db_path, seed_demo=True)
 
     def iniciar(self):
-        app = AppTest.from_file('app.py', default_timeout=40).run()
+        app = AppTest.from_string('from app import main\nmain(require_login=False)', default_timeout=40).run()
         self.assertFalse(app.exception)
         return app
 

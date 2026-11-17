@@ -13,7 +13,7 @@ class WorkspaceTest(unittest.TestCase):
         root = Path('.test-tmp')
         root.mkdir(exist_ok=True)
         self.path = root / f'workspace-{uuid4().hex}.db'
-        self.store = Workspace(self.path)
+        self.store = Workspace(self.path, seed_demo=True)
 
     def test_slots_descontam_aulas_trabalho_e_duracao(self):
         cfg = self.store.get('config')

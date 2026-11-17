@@ -12,7 +12,7 @@ CORES = ['#a78bfa', '#86d993', '#76b6fa', '#f5bb73', '#f28eaf', '#64ccc5']
 
 
 class Workspace:
-    def __init__(self, path):
+    def __init__(self, path, seed_demo=False):
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.conectar() as db:
@@ -35,19 +35,23 @@ class Workspace:
             if 'origin' not in {r['name'] for r in db.execute('PRAGMA table_info(files)')}:
                 db.execute("ALTER TABLE files ADD COLUMN origin TEXT NOT NULL DEFAULT 'Enviado'")
             if db.execute("SELECT 1 FROM settings WHERE key='config'").fetchone() is None:
-                nomes = ['Inteligência Artificial', 'Banco de Dados', 'Ciência de Dados', 'Engenharia de Software']
+                nomes = ['Inteligência Artificial', 'Banco de Dados', 'Ciência de Dados', 'Engenharia de Software'] if seed_demo else []
                 ids = [uuid4().hex for _ in nomes]
                 for i, (nome, peso) in enumerate(zip(nomes, [3, 2, 3, 1])):
                     db.execute('INSERT INTO subjects(id,name,priority,color,description) VALUES (?,?,?,?,?)',
                                (ids[i], nome, peso, CORES[i], ''))
-                config = {'profile': 'original', 'duration': 60, 'limit': 2, 'notes': '',
-                          'routine': [{'Dia': d, 'Estudar': d not in ['Sab', 'Dom'], 'Início estudo': '19:00',
-                                       'Fim estudo': '21:00', 'Trabalha': d not in ['Sab', 'Dom'],
+                config = {'profile': 'original', 'duration': 60, 'limit': 24, 'notes': '',
+                          'routine': [{'Dia': d, 'Estudar': seed_demo and d not in ['Sab', 'Dom'], 'Início estudo': '19:00',
+                                       'Fim estudo': '21:00', 'study_slots': [] if not seed_demo else ['19:00','19:30','20:00','20:30'], 'Trabalha': seed_demo and d not in ['Sab', 'Dom'],
                                        'Início trabalho': '09:00', 'Fim trabalho': '17:00'} for d in DIAS],
-                          'classes': [{'subject': ids[0], 'day': 'Seg', 'start': '18:00', 'end': '19:00'},
-                                      {'subject': ids[1], 'day': 'Qua', 'start': '18:00', 'end': '19:00'}]}
+                          'classes': ([{'subject': ids[0], 'day': 'Seg', 'start': '18:00', 'end': '19:00'},
+                                      {'subject': ids[1], 'day': 'Qua', 'start': '18:00', 'end': '19:00'}] if seed_demo else [])}
+                if seed_demo:
+                    config['limit'] = 2
+                    for row in config['routine']:
+                        row.pop('study_slots')
                 db.execute('INSERT INTO settings VALUES (?,?)', ('config', json.dumps(config)))
-                db.execute('INSERT INTO settings VALUES (?,?)', ('plan_status', json.dumps('initial')))
+                db.execute('INSERT INTO settings VALUES (?,?)', ('plan_status', json.dumps('initial' if seed_demo else 'pending')))
             # Migração preserva os cadastros e a rotina já existentes.
             row = db.execute("SELECT value FROM settings WHERE key='config'").fetchone()
             cfg = json.loads(row['value'])

@@ -1,0 +1,11 @@
+﻿.hello-robot,.auth-brand {text-align:center;max-width:520px;margin:2rem auto 1rem;}
+.hello-robot .robot {width:220px;height:180px;margin:auto;animation:sei-hello 1.4s ease-out both;}
+.auth-brand .robot {width:100px;height:85px;margin:auto;}
+.hello-robot h1,.auth-brand h1 {font-size:2rem!important;}
+@keyframes sei-hello {0% {opacity:0;transform:translateX(-60px) rotate(-12deg);}60% {opacity:1;transform:translateX(0) rotate(8deg);}80% {transform:rotate(-5deg);}100% {transform:rotate(0);}}
+@media (prefers-reduced-motion:reduce) {.hello-robot .robot {animation:none;}}
+@media (max-width:640px) {
+ .hello-robot,.auth-brand {margin:1rem auto;}
+ .hello-robot .robot {width:170px;height:140px;}
+ .hello-robot h1,.auth-brand h1 {font-size:1.6rem!important;}
+}
