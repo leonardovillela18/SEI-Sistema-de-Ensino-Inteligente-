@@ -1,0 +1,3 @@
+﻿# Apenas para preparar novamente o modelo; dispensável no deploy.
+-r requirements.txt
+ucimlrepo==0.0.7

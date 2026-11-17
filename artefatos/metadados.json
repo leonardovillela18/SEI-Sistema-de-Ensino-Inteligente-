@@ -1,0 +1,67 @@
+{
+  "fonte": "UCI 697; notebook células 14, 26, 28, 47, 53, 55–65",
+  "features": [
+    "Application mode",
+    "Application order",
+    "Course",
+    "Daytime/evening attendance",
+    "Previous qualification",
+    "Previous qualification (grade)",
+    "Admission grade",
+    "Displaced",
+    "Educational special needs",
+    "Debtor",
+    "Tuition fees up to date",
+    "Scholarship holder",
+    "Age at enrollment",
+    "Curricular units 1st sem (credited)",
+    "Curricular units 1st sem (enrolled)",
+    "Curricular units 1st sem (evaluations)",
+    "Curricular units 1st sem (approved)",
+    "Curricular units 1st sem (grade)",
+    "Curricular units 1st sem (without evaluations)",
+    "Unemployment rate",
+    "Inflation rate",
+    "GDP"
+  ],
+  "categoricas": [
+    "Application mode",
+    "Course",
+    "Previous qualification"
+  ],
+  "test_size": 0.2,
+  "random_state": 42,
+  "stratify": "Target",
+  "modelo": "LogisticRegression(max_iter=2000, random_state=42), demais parâmetros padrão",
+  "tamanho_treino": 3539,
+  "tamanho_teste": 885,
+  "indices_perfis": {
+    "original": 1853,
+    "dropout": 1864,
+    "enrolled": 510,
+    "graduate": 1853
+  },
+  "versoes": {
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "ucimlrepo": "0.0.7"
+  },
+  "sha256_dados": "39e220a5599ee0bff57c1a93702d036e3c3a0739ea3dadc61c8d221b8bc79036",
+  "acuracia_teste": 0.7333333333333333,
+  "f1_macro_teste": 0.6352261904761906,
+  "saida_original": {
+    "classe_predita": "Graduate",
+    "probabilidades": {
+      "Dropout": 0.018754408201808827,
+      "Enrolled": 0.09581915808582178,
+      "Graduate": 0.8854264337123693
+    },
+    "probabilidade_dropout": 0.018754408201808827,
+    "nivel_risco": "baixo",
+    "sessoes_semanais": 4
+  },
+  "probabilidade_notebook": 0.018754408201636767,
+  "diferenca_pontos_percentuais": 1.720602826882356e-11
+}

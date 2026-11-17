@@ -1,0 +1,75 @@
+/* Sobrescritas locais: nenhuma fonte, imagem ou tema remoto. */
+:root {color-scheme:dark; --ink:#f2f3f8; --muted:#aab3c9; --line:#354158; --purple:#493d69;}
+html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+    background:#0e1320; color:#f2f3f8;
+}
+[data-testid="stHeader"] {background:transparent; color:#d5dced;}
+h1,h2,h3,h4,h5,h6,.page-title,.section-label,.subject-name,.legend {color:#f2f3f8;}
+[data-testid="stMarkdownContainer"], [data-testid="stText"], [data-testid="stWidgetLabel"],
+[data-testid="stMetricLabel"], label {color:#e6eaf3;}
+[data-testid="stCaptionContainer"],.subtitle,.subject-meta,.brand-subtitle,.eyebrow {color:#aab3c9;}
+[data-testid="stSidebar"] {background:#151b2b; border-color:#303a50;}
+[data-testid="stSidebar"] button {background:transparent;color:#edf0f8;}
+[data-testid="stSidebar"] button:hover {background:#29243c;}
+[data-testid="stSidebar"] button[kind="primary"] {background:#493d69;color:#e7cbff;}
+[data-testid="stSidebar"] hr,hr {border-color:#354158;}
+.brand {color:#f4f5fa;}
+.brand .brand-line {background:#d5dced;}
+[data-testid="stMetric"] {background:#182032;border-color:#354158;}
+[data-testid="stMetricValue"] {color:#f2f3f8;}
+[data-testid="stVerticalBlockBorderWrapper"], [data-testid="stForm"],
+[data-testid="stVerticalBlock"][data-border="true"],
+[data-testid="stExpander"] {border-color:#354158!important;}
+[data-testid="stExpander"] details {background:#151d2d;border-color:#354158;}
+[data-testid="stExpander"] summary {color:#e6eaf3;}
+.calendar-scroll {background:#111725;border-color:#46516a;}
+.week-grid th {background:#171e2d;border-color:#354158;color:#f2f3f8;}
+.week-grid th small {color:#a0aac0;}
+.week-grid td {border-color:#354158;}
+.week-grid .time {background:#141b2a;color:#e5e9f4;}
+.week-grid .calendar-empty {color:#aab3c9;}
+.event {background:color-mix(in srgb,var(--color) 23%,#111725);color:#f5f3ff;}
+.event small {color:#c1c9df;}
+.event.study {background:color-mix(in srgb,var(--color) 13%,#111725);}
+.event-link:hover .event,.event-link:hover .free {box-shadow:0 0 0 2px #ba91f3;}
+.free {border-color:#706082;background:#18182a;color:#d9b8ff;}
+.subject-badge {background:color-mix(in srgb,var(--tint) 20%,#182032);color:#f0e9ff;}
+.urgency {background:#3d2e54;color:#e6c1ff;}
+.info-note,.scope-banner {background:#231e35;border-color:#4d3e65;color:#d6c2ed;}
+.conversation-welcome {color:#ced4e4;}
+.robot > path:first-child {fill:#2d6054;}
+[data-testid="stChatMessage"] {background:#192234;color:#edf0f8;}
+[data-testid="stChatInput"], [data-testid="stChatInput"] > div {background:#1c2639;border-color:#45516a;}
+[data-testid="stBottom"], [data-testid="stBottomBlockContainer"] {background:#0e1320;}
+[data-baseweb="input"], [data-baseweb="base-input"], [data-baseweb="textarea"],
+[data-baseweb="select"] > div, [data-testid="stNumberInputContainer"] {
+    background:#1c2639!important; color:#edf0f8!important; border-color:#45516a!important;
+}
+input:not([type="checkbox"]):not([type="radio"]),textarea {
+    color:#f2f3f8!important; background:#1c2639!important; caret-color:#e1c5ff;
+}
+input::placeholder,textarea::placeholder {color:#95a1bb!important;opacity:1;}
+[data-baseweb="select"] span,[data-baseweb="select"] svg,
+[data-baseweb="input"] svg,[data-testid="stNumberInput"] button {color:#dbe2f3!important;fill:currentColor;}
+[data-baseweb="tag"] {background:#493d69!important;color:#f0ddff!important;}
+[data-baseweb="popover"],[data-testid="stPopoverBody"],[role="dialog"],
+[role="listbox"],[role="tooltip"] {background:#1b2436!important;color:#eef1f8!important;border-color:#45516a!important;}
+[role="option"] {background:#1b2436!important;color:#eef1f8!important;}
+[role="option"]:hover,[role="option"][aria-selected="true"] {background:#403454!important;}
+button[kind="secondary"],button[kind="tertiary"],
+[data-testid="stBaseButton-secondary"],[data-testid="stBaseButton-tertiary"] {
+    background:#1b2436;color:#edf0f8;border-color:#45516a;
+}
+button[kind="secondary"]:hover,button[kind="tertiary"]:hover {border-color:#bc91f2;color:#efd9ff;}
+button[kind="primary"] {background:#0648ff;color:white;}
+[data-testid="stSidebar"] button[kind="secondary"] {background:transparent;border:0;}
+[data-testid="stSidebar"] button[kind="secondary"]:hover {background:#29243c;}
+[data-testid="stButtonGroup"] button,[data-testid="stSegmentedControl"] button {
+    background:#1b2436;color:#e6eaf3;border-color:#45516a;
+}
+[data-testid="stButtonGroup"] button[aria-pressed="true"],
+[data-testid="stSegmentedControl"] button[aria-pressed="true"] {background:#493d69;color:#edd6ff;}
+[data-testid="stAlert"] {background:#1c293c;color:#e2e9f6;border:1px solid #3a526d;}
+[data-testid="stFileUploaderDropzone"] {background:#1b2436;color:#dce3f3;border-color:#45516a;}
+[data-testid="stCode"], [data-testid="stCodeBlock"] {background:#131b2a;color:#d7e2f6;}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible {outline:2px solid #c5a0ff;outline-offset:2px;}

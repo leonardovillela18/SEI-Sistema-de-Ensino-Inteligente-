@@ -1,0 +1,9 @@
+.venv/
+.uv-cache/
+__pycache__/
+.test-tmp/
+dados/
+.streamlit/secrets.toml
+.env
+.env.*
+wheels/
