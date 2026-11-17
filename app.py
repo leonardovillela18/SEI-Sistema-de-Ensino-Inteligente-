@@ -563,7 +563,7 @@ def chatbot(store):
 
 
 def main(db_path=None, demo=False):
-    st.set_page_config(page_title='SEI | Sua semana de estudos', page_icon='📖', layout='wide', initial_sidebar_state='expanded')
+    st.set_page_config(page_title='SEI | Sua semana de estudos', page_icon='📖', layout='wide', initial_sidebar_state='auto')
     store = Workspace(db_path or os.environ.get('SEI_DB_PATH', str(ROOT / 'dados/sei.db')))
     if demo:
         st.info('Demonstração online: seu espaço é separado dos demais visitantes. '
@@ -573,6 +573,7 @@ def main(db_path=None, demo=False):
     css = (ROOT / 'assets/sei.css').read_text(encoding='utf-8')
     if escuro:
         css += '\n' + (ROOT / 'assets/sei-dark.css').read_text(encoding='utf-8')
+    css += '\n' + (ROOT / 'assets/sei-mobile.css').read_text(encoding='utf-8')
     st.markdown('<style>' + css + '</style>', unsafe_allow_html=True)
     # A tradução automática altera os nós de texto controlados pelo React e pode
     # causar o removeChild exibido na captura. Mantém o app, já em português, fora da tradução.
